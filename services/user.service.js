@@ -6,7 +6,6 @@ class UserService {
 
   async create(data) {
     const newUser = await sequelize.models.User.create(data);
-    console.table(newUser);
     return newUser;
   }
 
