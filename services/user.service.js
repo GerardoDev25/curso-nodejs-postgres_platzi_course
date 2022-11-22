@@ -1,15 +1,13 @@
-// const boom = require('@hapi/boom');
-// const { pool } = require('../libs/postgres-pool');
+const Boom = require('@hapi/boom');
 const { sequelize } = require('./../libs/sequalize');
 
 class UserService {
-  constructor() {
-    // this.pool = pool;
-    // this.pool.on('error', console.error);
-  }
+  constructor() {}
 
   async create(data) {
-    return data;
+    const newUser = await sequelize.models.User.create(data);
+    console.table(newUser);
+    return newUser;
   }
 
   async find() {
@@ -18,17 +16,22 @@ class UserService {
   }
 
   async findOne(id) {
-    return { id };
+    const user = await sequelize.models.User.findByPk(id);
+    if (!user) {
+      throw Boom.notFound('user not fond');
+    }
+    return user;
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const user = await this.findOne(id);
+    const rta = await user.update(changes);
+    return rta;
   }
 
   async delete(id) {
+    const user = await this.findOne(id);
+    await user.destroy();
     return { id };
   }
 }
