@@ -26,18 +26,15 @@ class ProductsService {
   }
 
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.products.push(newProduct);
-    return newProduct;
+    const newProducts = await sequelize.models.Product.create(data);
+    return newProducts;
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return { data };
+    const products = await sequelize.models.Product.findAll({
+      include: ['category'],
+    });
+    return products;
   }
 
   async findOne(id) {
