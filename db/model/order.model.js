@@ -21,6 +21,17 @@ const OrderSchema = {
     field: 'created_at',
     defaultValue: Sequelize.NOW,
   },
+  total: {
+    type: DataTypes.VIRTUAL,
+    get() {
+      if (this.items.length > 0) {
+        return this.items.reduce((total, item) => {
+          return total + item.price + item.OrderProduct.amount;
+        }, 0);
+      }
+      return 0;
+    },
+  },
 };
 
 class Order extends Model {
@@ -33,12 +44,6 @@ class Order extends Model {
       otherKey: 'productId',
     });
   }
-
-  // static associate(models) {
-  //   this.belongsTo(models.Customer, {
-  //     as: 'customer',
-  //   });
-  // }
 
   static config(sequelize) {
     return { sequelize, tableName: ORDER_TABLE, modelName: 'Order', timestamps: false };

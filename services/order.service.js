@@ -1,4 +1,4 @@
-const boom = require('@hapi/boom');
+// const boom = require('@hapi/boom');
 
 const { sequelize } = require('../libs/sequalize');
 
@@ -7,6 +7,11 @@ class OrderService {
   async create(data) {
     const newOrder = await sequelize.models.Order.create(data);
     return newOrder;
+  }
+
+  async addItem(data) {
+    const newItem = await sequelize.models.OrderProduct.create(data);
+    return newItem;
   }
 
   async find() {
@@ -20,6 +25,7 @@ class OrderService {
           association: 'customer',
           include: ['user'],
         },
+        'items',
       ],
     });
     return order;
