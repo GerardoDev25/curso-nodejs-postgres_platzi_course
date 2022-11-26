@@ -16,7 +16,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "sequelize-cli": "^6.2.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.1",
@@ -24,6 +23,7 @@
     "prettier": "^2.3.2"
   },
   "dependencies": {
+    "sequelize-cli": "^6.2.0",
     "@hapi/boom": "^9.1.4",
     "dotenv": "^10.0.0",
     "pg-hstore": "^2.3.4",
