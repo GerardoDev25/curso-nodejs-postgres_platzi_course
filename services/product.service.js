@@ -30,10 +30,19 @@ class ProductsService {
     return newProducts;
   }
 
-  async find() {
-    const products = await sequelize.models.Product.findAll({
+  async find(query) {
+    const options = {
       include: ['category'],
-    });
+    };
+
+    const { limit, offset } = query;
+
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = limit;
+    }
+
+    const products = await sequelize.models.Product.findAll(options);
     return products;
   }
 
