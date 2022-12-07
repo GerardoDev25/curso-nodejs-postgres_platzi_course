@@ -8,7 +8,7 @@ const {
   boomErrorHandler,
   ormErrorHandler,
 } = require('./middlewares/error.handler');
-const { checkApliKey } = require('./middlewares/authHancler');
+const { checkApliKey } = require('./middlewares/authHandler');
 
 const app = express();
 const port = process.env.PORT || 3000;

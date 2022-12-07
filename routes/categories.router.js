@@ -8,6 +8,7 @@ const {
   updateCategorySchema,
   getCategorySchema,
 } = require('./../schemas/category.schema');
+const { checkRoles } = require('../middlewares/authHandler');
 
 const router = express.Router();
 const service = new CategoryService();
@@ -34,6 +35,8 @@ router.get('/:id', validatorHandler(getCategorySchema, 'params'), async (req, re
 router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
+  // checkAdminRole,
+  checkRoles('admin'),
   validatorHandler(createCategorySchema, 'body'),
   async (req, res, next) => {
     try {
@@ -48,6 +51,8 @@ router.post(
 
 router.patch(
   '/:id',
+  checkRoles('admin', 'saller'),
+
   validatorHandler(getCategorySchema, 'params'),
   validatorHandler(updateCategorySchema, 'body'),
   async (req, res, next) => {
