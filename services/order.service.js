@@ -17,6 +17,21 @@ class OrderService {
   async find() {
     return [];
   }
+  async findByUser(userId) {
+    const orders = await sequelize.models.Order.findAll({
+      where: {
+        '$customer.user.id$': userId,
+      },
+      include: [
+        {
+          association: 'customer',
+          include: ['user'],
+        },
+        'items',
+      ],
+    });
+    return orders;
+  }
 
   async findOne(id) {
     const order = await sequelize.models.Order.findByPk(id, {
