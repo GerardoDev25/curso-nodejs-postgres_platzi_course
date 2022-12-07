@@ -9,13 +9,20 @@ class UserService {
     const hash = await bcryptjs.hash(data.password, 10);
     const newUser = await sequelize.models.User.create({ ...data, password: hash });
 
-    delete newUser.dataValues.password
+    delete newUser.dataValues.password;
     return newUser;
   }
 
   async find() {
     const rta = await sequelize.models.User.findAll({
       include: ['customer'],
+    });
+    return rta;
+  }
+
+  async findByEmail(email) {
+    const rta = await sequelize.models.User.findOne({
+      where: { email },
     });
     return rta;
   }
